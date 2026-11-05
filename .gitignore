@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+build/
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android
+captures/
+.externalNativeBuild/
+.cxx/
+
+# 모델 파일 (용량 문제로 커밋 제외 — README 참고)
+app/src/main/assets/models/
+
+# 기타
+.DS_Store
