@@ -163,6 +163,11 @@ fi
 
 # shellcheck disable=SC2016
 # Backslashes are not expanded in single quotes.
-args=$( printf '%s\n' "$@" | xargs -n1 printf '%s\n' ) || die "Failed to parse arguments"
+eval "set -- $(
+        printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
+        xargs -n1 |
+        sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
+        tr '\n' ' '
+    )" '"$@"'
 
-exec "$JAVACMD" "$args"
+exec "$JAVACMD" "$@"
