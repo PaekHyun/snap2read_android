@@ -73,3 +73,16 @@ GPU OCR(PP-OCRv6)·edge-tts 자연 음성·qwen3 번역을 사용할 수 있습�
 3. **Run ▶ 버튼이 회색이면**: 상단 기기 선택기에서 **에뮬레이터 또는 USB 연결된 실기기**가 선택돼 있는지 확인. 없으면 Device Manager에서 에뮬레이터 생성.
 4. **모델 파일**: `gemma-4-E4B-it-gpu.litertlm`을 `app/src/main/assets/models/` 폴더로 옮긴 뒤 빌드 (git에는 커밋되지 않음 — .gitignore 참고).
 5. 빌드 오류 시 `Build > Clean Project` 후 `File > Sync Project with Gradle Files`.
+
+
+## gradle-wrapper.jar 확보 (CI 빌드가 wrapper 단계에서 실패할 때)
+
+저장소에 `gradle/wrapper/gradle-wrapper.jar`가 없으면 CI·로컬 모두 wrapper 실행이 실패합니다.
+**사용자 PC에서 1회 생성해 커밋**하는 것이 가장 확실합니다:
+
+1. 안드로이드 스튜디오 설치 시: 스튜디오 내장 Gradle 사용
+   - 스튜디오 터미널에서: `& "$env:LOCALAPPDATA\Programs\AndroidStudio\plugins\gradle\lib\gradle-8.x\bin\gradle.bat" wrapper --gradle-version 8.9`
+2. 또는 Gradle 설치 후: `gradle wrapper --gradle-version 8.9`
+3. 생성된 `gradle/wrapper/gradle-wrapper.jar`를 커밋: `git add gradle/wrapper/gradle-wrapper.jar; git commit -m "Add gradle-wrapper.jar"; git push`
+
+CI는 jar가 있으면 그걸 쓰고, 없으면 gradle/gradle repo에서 받아 시도합니다.
