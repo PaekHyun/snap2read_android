@@ -56,7 +56,7 @@ dependencies {
     implementation("com.google.mlkit:text-recognition-korean:16.0.1")
 
     // 온디바이스 LLM (LiteRT-LM, Gemma 4 E4B)
-    implementation("com.google.ai.edge.litertlm:litertlm-android:0.1.0")
+    implementation("com.google.ai.edge.litertlm:litertlm-android:0.19.0")
 
     implementation("androidx.core:core-ktx:1.13.1")
 }
