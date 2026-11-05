@@ -29,13 +29,12 @@ jobs:
           "$SDKM" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Gradle wrapper validation
-        # gradle-wrapper.jar가 저장소에 없으면 wrapper 실행 자체가 실패 —
-        # Gradle 공식 배포판으로 jar를 재생성해 복구합니다.
+        # gradle-wrapper.jar가 저장소에 없으면 wrapper 실행 실패 —
+        # GitHub의 gradle/gradle 저장소에서 jar를 직접 받아 복구합니다.
         run: |
           if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
-            curl -fsSL https://services.gradle.org/distributions/gradle-8.9-bin.zip -o /tmp/gradle.zip
-            unzip -q /tmp/gradle.zip -d /tmp
-            /tmp/gradle-8.9/bin/gradle wrapper --gradle-version 8.9 --distribution-type bin
+            curl -fsSL https://raw.githubusercontent.com/gradle/gradle/v8.9.0/gradle/wrapper/gradle-wrapper.jar \
+              -o gradle/wrapper/gradle-wrapper.jar
           fi
           chmod +x gradlew
           ./gradlew --version
