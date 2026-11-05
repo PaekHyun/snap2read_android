@@ -19,12 +19,14 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        # setup-android@v3는 구버전 'tools' 패키지를 설치하려다 실패함 (2026-09-17 Google 제거).
-        # 러너에 Android SDK가 이미 내장되어 있으므로 이 액션은 생략하고,
-        # 필요한 플랫폼/빌드툴만 sdkmanager로 설치합니다.
+        # 러너에 SDK가 내장되어 있으나 sdkmanager가 PATH에 없는 경우가 있어 ANDROID_HOME 기준으로 호출.
+        # (setup-android@v3는 구버전 'tools' 패키지 설치 시도로 실패 — 2026-09-17 Google 제거)
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          SDK=${ANDROID_HOME:-/usr/local/lib/android/sdk}
+          SDKM=$SDK/cmdline-tools/latest/bin/sdkmanager
+          [ -x "$SDKM" ] || SDKM=$SDK/tools/bin/sdkmanager
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Gradle wrapper validation
         run: |
