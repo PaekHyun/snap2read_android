@@ -64,3 +64,12 @@ GPU OCR(PP-OCRv6)·edge-tts 자연 음성·qwen3 번역을 사용할 수 있습�
 | `Unsupported class file major version` | JDK 17 사용 확인 (`java -version`) |
 | ML Kit 한국어 인식 실패 | 첫 실행 시 모델 다운로드 필요 — WiFi에서 1회 실행 |
 | LLM 로드 실패/OOM | litertlm 파일 위치 확인, 다른 앱 종료 후 재시도 |
+
+
+## "디버그가 자동으로 시작하지 않는다" 해결
+
+1. **Gradle Sync 먼저**: 안드로이드 스튜디오에서 프로젝트를 열면 우측 상단(또는 코끼리 아이콘)의 **Sync Now**를 누르세요. Gradle wrapper가 Gradle 8.9를 자동 다운로드합니다 (최초 1회, 몇 분).
+2. **gradle-wrapper.jar가 없으면**: Sync 시 스튜디오가 채우지 못하면, 터미널에서 `gradlew.bat --version` 실행 → jar를 자동 받습니다. (JDK 17 필요 — `JAVA_HOME` 설정)
+3. **Run ▶ 버튼이 회색이면**: 상단 기기 선택기에서 **에뮬레이터 또는 USB 연결된 실기기**가 선택돼 있는지 확인. 없으면 Device Manager에서 에뮬레이터 생성.
+4. **모델 파일**: `gemma-4-E4B-it-gpu.litertlm`을 `app/src/main/assets/models/` 폴더로 옮긴 뒤 빌드 (git에는 커밋되지 않음 — .gitignore 참고).
+5. 빌드 오류 시 `Build > Clean Project` 후 `File > Sync Project with Gradle Files`.
